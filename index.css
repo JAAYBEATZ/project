@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-base: 11 13 16;
+  --color-panel: 20 23 28;
+  --color-hairline: 38 43 51;
+  --color-ink: 231 234 238;
+  --color-muted: 136 145 160;
+  --color-amber: 217 142 59;
+  --color-gain: 61 220 132;
+  --color-loss: 255 93 93;
+}
+
+html.light {
+  --color-base: 247 248 250;
+  --color-panel: 255 255 255;
+  --color-hairline: 227 231 236;
+  --color-ink: 26 29 34;
+  --color-muted: 107 114 128;
+  --color-amber: 185 111 30;
+  --color-gain: 31 164 99;
+  --color-loss: 214 57 74;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  background-color: rgb(var(--color-base));
+  color: rgb(var(--color-ink));
+  font-family: "Inter", sans-serif;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* iOS-native spring easing, used for card/press interactions */
+:root {
+  --spring: cubic-bezier(0.36, 0.66, 0.04, 1);
+}
+
+/* Ambient blurred gradient blobs behind the glass surfaces — this is what makes
+   frosted glass actually read as glass instead of flat translucent gray */
+.ambient-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+}
+html.light .ambient-blob {
+  opacity: 0.25;
+}
+
+/* Frosted glass surface — replaces flat bg-panel where the "glassy iOS" feel matters */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+}
+html.light .glass {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.press {
+  transition: transform 0.15s var(--spring), opacity 0.15s var(--spring);
+}
+.press:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* Tabular numerals everywhere numbers appear, like a real ledger */
+.figure {
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Signature element: the ledger rule — a hairline with an amber tick,
+   echoing a candlestick wick, used under the wordmark and section heads */
+.ledger-rule {
+  position: relative;
+  height: 1px;
+  background: rgb(var(--color-hairline));
+}
+.ledger-rule::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 2px;
+  height: 7px;
+  background: rgb(var(--color-amber));
+}
